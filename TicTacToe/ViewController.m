@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelSeven;
 @property (strong, nonatomic) IBOutlet UILabel *labelEight;
 @property (strong, nonatomic) IBOutlet UILabel *labelNine;
+@property (strong, nonatomic) IBOutlet UILabel *whichPlayerLabel;
 
 @end
 
