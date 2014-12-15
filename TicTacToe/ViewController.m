@@ -25,6 +25,7 @@
 @property (nonatomic, assign, getter=isTurnX) BOOL turnX;
 @property (nonatomic, assign, getter=isGameOver) BOOL gameOver;
 @property int turn;
+@property CGPoint originalCenter;
 
 @end
 
@@ -43,6 +44,10 @@
                               @[self.labelOne, self.labelFive, self.labelNine],
                               @[self.labelThree, self.labelFive, self.labelSeven], nil];
     [self newGame];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.originalCenter = self.whichPlayerLabel.center;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -138,6 +143,25 @@
 {
     if (buttonIndex == 0){
         [self newGame];
+    }
+}
+
+- (IBAction)onDragToLabel:(UIPanGestureRecognizer *)panGesture {
+    CGPoint point = [panGesture locationInView:self.view];
+    self.whichPlayerLabel.center = point;
+    if (CGRectContainsPoint(self.whichPlayerLabel.frame, point)) {
+        self.whichPlayerLabel.center = point;
+        if ([panGesture state] == UIGestureRecognizerStateEnded) {
+            UILabel *label = [self findLabelUsingPoint:point];
+            self.whichPlayerLabel.center = self.originalCenter;
+            if (label != nil) {
+                [self setTurnText:label];
+                [self checkWhoWon];
+                if (![self isGameOver]) {
+                    [self changeTurn];
+                }
+            }
+        }
     }
 }
 

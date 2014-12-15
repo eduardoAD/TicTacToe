@@ -70,12 +70,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="T" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQH-cr-r0i">
-                                <rect key="frame" x="63" y="28" width="20" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Turn:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dgu-bs-lYn">
                                 <rect key="frame" x="16" y="28" width="39" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -98,6 +92,16 @@
                                 <rect key="frame" x="16" y="152" width="146" height="4"/>
                                 <color key="backgroundColor" red="0.49540324060000002" green="0.83202971179999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="T" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQH-cr-r0i">
+                                <rect key="frame" x="63" y="24" width="40" height="30"/>
+                                <gestureRecognizers/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="txf-rp-1nW" appends="YES" id="OZY-SY-BVw"/>
+                                </connections>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -125,6 +129,12 @@
                         <outlet property="delegate" destination="kh9-bI-dsS" id="Ika-NY-YxW"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="txf-rp-1nW">
+                    <connections>
+                        <action selector="onDragToLabel:" destination="vXZ-lx-hvc" id="fnE-Ai-DgS"/>
+                        <outlet property="delegate" destination="vXZ-lx-hvc" id="Kc7-NR-yR3"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="331" y="370"/>
         </scene>
