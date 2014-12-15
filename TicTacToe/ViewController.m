@@ -20,18 +20,60 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelNine;
 @property (strong, nonatomic) IBOutlet UILabel *whichPlayerLabel;
 
+@property NSArray *labelsArray;
+@property (nonatomic, assign, getter=isTurnX) BOOL turnX;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.turnX = YES;
+    [self setTurnText:self.whichPlayerLabel];
+    self.labelsArray = [NSArray arrayWithObjects:self.labelOne, self.labelTwo, self.labelThree, self.labelFour, self.labelFive, self.labelSix, self.labelSeven, self.labelEight, self.labelNine, nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setTurnText:(UILabel *)label{
+    if ([self isTurnX]) {
+        label.textColor = [UIColor blueColor];
+        label.text = @"X";
+    }else{
+        label.textColor = [UIColor redColor];
+        label.text = @"O";
+    }
+}
+
+-(void)changeTurn{
+    self.turnX = !self.turnX;
+    [self setTurnText:self.whichPlayerLabel];
+}
+
+- (UILabel *)findLabelUsingPoint:(CGPoint)point{
+    for (UILabel *label in self.labelsArray)
+    {
+        if(CGRectContainsPoint(label.frame, point)) {
+            if ([label.text isEqualToString:@""]) {
+                return label;
+            }
+        }
+    }
+    return nil;
+}
+
+-(IBAction)onLabelTapped:(id)sender{
+    CGPoint tapPoint = [sender locationInView:self.view];
+    //NSLog(@"%f, %f",tapPoint.x,tapPoint.y);
+    UILabel *label = [self findLabelUsingPoint:tapPoint];
+    if (label != nil) {
+        [self setTurnText:label];
+        [self changeTurn];
+    }
 }
 
 @end
