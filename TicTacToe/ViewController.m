@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *labelOne;
 @property (strong, nonatomic) IBOutlet UILabel *labelTwo;
 @property (strong, nonatomic) IBOutlet UILabel *labelThree;
@@ -19,7 +19,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelEight;
 @property (strong, nonatomic) IBOutlet UILabel *labelNine;
 @property (strong, nonatomic) IBOutlet UILabel *whichPlayerLabel;
-@property (strong, nonatomic) IBOutlet UILabel *winnerText;
 
 @property NSArray *labelsArray;
 @property NSArray *combinationsToWin;
@@ -33,10 +32,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.turn = 0;
-    self.turnX = YES;
-    [self setTurnText:self.whichPlayerLabel];
-    self.winnerText.text = @"";
     self.labelsArray = [NSArray arrayWithObjects:self.labelOne, self.labelTwo, self.labelThree, self.labelFour, self.labelFive, self.labelSix, self.labelSeven, self.labelEight, self.labelNine, nil];
     self.combinationsToWin = [[NSArray alloc] initWithObjects:
                               @[self.labelOne, self.labelTwo, self.labelThree],
@@ -47,11 +42,21 @@
                               @[self.labelThree, self.labelSix, self.labelNine],
                               @[self.labelOne, self.labelFive, self.labelNine],
                               @[self.labelThree, self.labelFive, self.labelSeven], nil];
+    [self newGame];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)newGame{
+    for (UILabel *label in self.labelsArray) {
+        label.text = @"";
+    }
+    self.turn = 1;
+    self.turnX = YES;
+    [self setTurnText:self.whichPlayerLabel];
 }
 
 -(void)setTurnText:(UILabel *)label{
@@ -102,7 +107,7 @@
             if ([label.text isEqualToString:self.whichPlayerLabel.text]) {
                 count ++;
                 if (count == 3) {
-                    return [NSString stringWithFormat:@"%@ has won :)",self.whichPlayerLabel.text];
+                    return [NSString stringWithFormat:@"%@ has won :D",self.whichPlayerLabel.text];
                 }
             }
         }
@@ -111,11 +116,28 @@
 }
 
 -(void)checkWhoWon{
-    self.winnerText.text = [self whoWon];
-    if ([self.winnerText.text isEqualToString:@""]) {
+    NSString *winnerTitle = [self whoWon];
+    NSString *winnerMsg = @"";
+
+    if ([winnerTitle isEqualToString:@""]) {
         self.gameOver= NO;
     }else{
         self.gameOver = YES;
+        if (self.turn == 9) {
+            winnerMsg = @"That was close!";
+        }else{
+            winnerMsg = @"Play again";
+        }
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:winnerTitle message:winnerMsg delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alert addButtonWithTitle:@"OK"];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0){
+        [self newGame];
     }
 }
 
