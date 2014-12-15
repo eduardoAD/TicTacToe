@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelEight;
 @property (strong, nonatomic) IBOutlet UILabel *labelNine;
 @property (strong, nonatomic) IBOutlet UILabel *whichPlayerLabel;
+@property (strong, nonatomic) IBOutlet UILabel *secondsLeft;
 
 @property NSArray *labelsArray;
 @property NSArray *combinationsToWin;
@@ -26,6 +27,8 @@
 @property (nonatomic, assign, getter=isGameOver) BOOL gameOver;
 @property int turn;
 @property CGPoint originalCenter;
+@property NSTimer *timer;
+@property int seconds;
 
 @end
 
@@ -62,6 +65,7 @@
     self.turn = 1;
     self.turnX = YES;
     [self setTurnText:self.whichPlayerLabel];
+    [self startTimer:10];
 }
 
 -(void)setTurnText:(UILabel *)label{
@@ -76,8 +80,9 @@
 
 -(void)changeTurn{
     self.turnX = !self.turnX;
-    self.turn++;
     [self setTurnText:self.whichPlayerLabel];
+    [self.timer invalidate];
+    [self startTimer:10];
 }
 
 - (UILabel *)findLabelUsingPoint:(CGPoint)point{
@@ -100,6 +105,7 @@
         [self setTurnText:label];
         [self checkWhoWon];
         if (![self isGameOver]) {
+            self.turn++;
             [self changeTurn];
         }
     }
@@ -126,6 +132,15 @@
 
     if ([winnerTitle isEqualToString:@""]) {
         self.gameOver= NO;
+        if (self.turn == 9) {
+            winnerTitle = @"Nobody wins!";
+            winnerMsg = @"Play again";
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:winnerTitle message:winnerMsg delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+            [alert addButtonWithTitle:@"OK"];
+            [self.timer invalidate];
+            self.timer = nil;
+            [alert show];
+        }
     }else{
         self.gameOver = YES;
         if (self.turn == 9) {
@@ -135,6 +150,8 @@
         }
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:winnerTitle message:winnerMsg delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
         [alert addButtonWithTitle:@"OK"];
+        [self.timer invalidate];
+        self.timer = nil;
         [alert show];
     }
 }
@@ -150,7 +167,6 @@
     CGPoint point = [panGesture locationInView:self.view];
     self.whichPlayerLabel.center = point;
     if (CGRectContainsPoint(self.whichPlayerLabel.frame, point)) {
-        self.whichPlayerLabel.center = point;
         if ([panGesture state] == UIGestureRecognizerStateEnded) {
             UILabel *label = [self findLabelUsingPoint:point];
             self.whichPlayerLabel.center = self.originalCenter;
@@ -158,10 +174,29 @@
                 [self setTurnText:label];
                 [self checkWhoWon];
                 if (![self isGameOver]) {
+                    self.turn++;
                     [self changeTurn];
                 }
             }
         }
+    }
+}
+
+- (void)startTimer:(int)seg{
+    self.seconds = seg;
+    self.secondsLeft.text = [NSString stringWithFormat:@"%d", seg];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countDown) userInfo:nil repeats:YES];
+    self.secondsLeft.textColor = [UIColor blackColor];
+}
+
+- (void)countDown {
+    self.seconds--;
+    self.secondsLeft.text = [NSString stringWithFormat:@"%d", self.seconds];
+    if (self.seconds < 3) {
+        self.secondsLeft.textColor = [UIColor redColor];
+    }
+    if (self.seconds == 0) {
+        [self changeTurn];
     }
 }
 

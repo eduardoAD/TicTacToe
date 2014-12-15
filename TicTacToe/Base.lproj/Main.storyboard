@@ -102,6 +102,18 @@
                                     <outletCollection property="gestureRecognizers" destination="txf-rp-1nW" appends="YES" id="OZY-SY-BVw"/>
                                 </connections>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="S" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2d-KC-zFB">
+                                <rect key="frame" x="118" y="214" width="44" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Seconds:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQX-5V-x5S">
+                                <rect key="frame" x="16" y="214" width="73" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -119,6 +131,7 @@
                         <outlet property="labelSix" destination="Gem-Ji-gRh" id="UAh-kl-vBe"/>
                         <outlet property="labelThree" destination="tvZ-V1-o5d" id="aN2-6C-Qqh"/>
                         <outlet property="labelTwo" destination="K8s-sC-V1s" id="XHO-cz-eT0"/>
+                        <outlet property="secondsLeft" destination="j2d-KC-zFB" id="4gy-WQ-0o9"/>
                         <outlet property="whichPlayerLabel" destination="PQH-cr-r0i" id="yZG-f1-t7P"/>
                     </connections>
                 </viewController>
